@@ -2,9 +2,10 @@ import React from 'react';
 import './App.css';
 
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
 import Info from './info';
 import Completed from './completed';
+import TaskPage from './tasks/taskpage';
 
 class App extends React.Component {
   render() {
@@ -26,9 +27,7 @@ class App extends React.Component {
             </ul>
           </nav>
           <Switch>
-            <Route path="/" exact>
-              <div><h1>Main Page</h1> Lorem ipsum etc.</div>
-            </Route>
+            <Route path="/" exact component={TaskPage}/>
             <Route path="/completed" component={Completed} />
             <Route path="/info" component={Info} />
             <Route path="/">
@@ -41,15 +40,4 @@ class App extends React.Component {
   }
 }
 
-// This function is needed to get data from Redux store 
-// to the component as props using connect() of react-redux. 
-// Reshape the data from store to a suitable form for the 
-// component here.
-const mapStateToProps = state => {
-  return {
-    colorModeFromReduxStore: state['general']['colorMode']
-  };
-};
-const app = connect(mapStateToProps, null)(App)
-
-export default app;
+export default App;

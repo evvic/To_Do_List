@@ -1,0 +1,22 @@
+{
+    "tasks": [
+      {
+        "description": "finish the full stack hw assignment",
+        "tags": [],
+        "order": 1,
+        "last_modified": "",
+        "time_added": "now",
+        "id": 1
+      }
+    ],
+    "completed": [
+        {
+            "description": "procrastinate",
+            "tags": [],
+            "order": 1,
+            "last_modified": "",
+            "time_added": "now",
+            "id": 1
+        }
+      ]
+  }
