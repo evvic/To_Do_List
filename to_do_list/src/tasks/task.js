@@ -175,7 +175,7 @@ function Task(props) {
     
     useEffect(() => {
         //Loading()
-    }, [])
+    }, [tags])
 
     return(
         <li key={props.data.id}>
@@ -201,7 +201,7 @@ function Task(props) {
                 </button>
                 <br/>
                 <div className="tag-box">
-                    <Tags tags={tags}/>
+                    <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed}/>
                 </div>
             </div>
             :
@@ -214,7 +214,7 @@ function Task(props) {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 <div className="tag-box">
-                    <Tags tags={tags}/>
+                    <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed}/>
                 </div>
                 <button disabled={loading} onClick={ handleFinishedEditing }>
                     {(editing)? "stop editing" : "edit" }
