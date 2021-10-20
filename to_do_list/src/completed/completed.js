@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import AddTask from './addtask';
-import Task from './task';
+//import AddTask from './addtask';
+import Task from '../tasks/task';
 import axios from 'axios'
 
 async function GetTasks() {
-    const url = 'http://localhost:3010/tasks'
+    const url = 'http://localhost:3010/completed'
     try {
         const data = await axios.get(url)
         return data.data
@@ -17,7 +17,7 @@ async function GetTasks() {
 }
 
 
-function Tasks() {
+function Completed() {
     const [data, setData] = useState([{}])
     const [loading, setLoading] = useState(true)
     const [failed, setFailed] = useState(false)
@@ -37,7 +37,7 @@ function Tasks() {
             setData(temp)
 
             setTaskItems(temp.map((b) =>
-                <Task data={b} setRemovedTask={setRemovedTask} completed={false}/>
+                <Task data={b} setRemovedTask={setRemovedTask}/>
             ))
         }
         else {
@@ -54,11 +54,6 @@ function Tasks() {
 
     return(
         <>
-        <div className="info">
-            <h1>Task List</h1>
-            <AddTask length={data.length}/>
-            
-        </div>
         {(loading)?
         <>
             {/*List of tasks is loading*/}
@@ -84,4 +79,4 @@ function Tasks() {
     )
 }
 
-export default Tasks;
+export default Completed;

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Switch } from 'react-router'
+
+/*
+
+*/
 
 async function GetTasks() {
     const url = 'http://localhost:3010/tasks'
@@ -14,9 +19,9 @@ async function GetTasks() {
     
 }
 
-async function deleteTask(obj) {
+async function deleteTask(obj, url_end) {
     console.log(obj)
-    const url = 'http://localhost:3010/tasks' + `/${obj.id}`
+    const url = 'http://localhost:3010/' + `${url_end}/${obj.id}`
     try {
         const response = await axios.delete(url)
         console.log(response)
@@ -26,8 +31,8 @@ async function deleteTask(obj) {
     }
 }
 
-async function addTaskCompleted(obj) {
-    const url = 'http://localhost:3010/completed'
+async function addTaskCompleted(obj, url_end) {
+    const url = 'http://localhost:3010/' + url_end
 
     console.log(obj)
 
@@ -42,6 +47,7 @@ async function addTaskCompleted(obj) {
     }
 }
 
+
 /*
     Have an edit button to toggle between editing the task and that changes the text to actaully
     be editable and saved as well. 
@@ -50,7 +56,7 @@ async function addTaskCompleted(obj) {
 function Task(props) {
     const [data, setData] = useState([{}])
     const [loading, setLoading] = useState(false)
-    const [completed, setCompleted] = useState(false) // init false
+    const [completed, setCompleted] = useState(props.completed) // init false
     const [editing, setEditing] = useState(false)
 
     async function Loading() {
@@ -76,14 +82,27 @@ function Task(props) {
 
     const markCompleted = async () => {
         setLoading(true)
-        setCompleted(true)
+        setCompleted(!props.completed)
         const removedId = props.data.id
-        let status = await deleteTask(props.data)
+        let status = null
+
+        if(props.completed)
+            //delete task from completed list
+            status = await deleteTask(props.data, 'tasks')
+        else 
+            //delete task from task list
+            status = await deleteTask(props.data, 'completed')
+
         console.log(status)
         if((await status).status == 200) {
             // successfully deleted task, now add to completed
             props.data.id = null
-            status = await addTaskCompleted(props.data)
+            if(props.completed) 
+                // add task to to-do list
+                status = await addTaskCompleted(props.data, 'completed')
+            else
+                //add task to completed list
+                status = await addTaskCompleted(props.data, 'tasks')
 
             if((await status).status == 201) {
                 // successfully added task to 'completed' db array

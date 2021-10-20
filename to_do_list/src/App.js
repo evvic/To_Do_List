@@ -4,7 +4,7 @@ import './App.css';
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 //import {connect} from 'react-redux';
 import Info from './info';
-import Completed from './completed';
+import Completed from './completed/completed';
 import TaskPage from './tasks/taskpage';
 
 class App extends React.Component {
