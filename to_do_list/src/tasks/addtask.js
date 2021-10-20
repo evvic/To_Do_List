@@ -28,7 +28,7 @@ async function PostTask(obj) {
     
 }
 
-function AddTask() {
+function AddTask(props) {
     const [description, setDescription] = useState("")
 
     const [loading, setLoading] = useState(false)
@@ -54,7 +54,7 @@ function AddTask() {
         let obj = {
             description: description,
             tags: [],
-            order: 1,
+            order: props.length,
             last_modified: "",
             time_added: today,
         }

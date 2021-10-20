@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import AddTask from './addtask';
+import Task from './task';
 import axios from 'axios'
 
 async function GetTasks() {
@@ -22,6 +23,7 @@ function Tasks() {
     const [loading, setLoading] = useState(true)
     const [failed, setFailed] = useState(false)
     const [taskItems, setTaskItems] = useState([])
+    const [removedTask, setRemovedTask] = useState(null)
 
     async function Loading() {
         setLoading(true)
@@ -34,12 +36,10 @@ function Tasks() {
         // make sure temp is not null
         if(temp !== "error") {
             setData(temp)
-    
-            setTaskItems(temp.map((b) => <li key={b.id}>
-                <div className="task-item">
-                    {b.description}
-                </div>
-                </li>))
+
+            setTaskItems(temp.map((b) =>
+                <Task data={b} setRemovedTask={setRemovedTask}/>
+            ))
         }
         else {
             setData([{"name": "error"}])
@@ -51,30 +51,30 @@ function Tasks() {
     
     useEffect(() => {
         Loading()
-    }, [])
+    }, [removedTask])
 
     return(
         <>
         <div className="info">
             <h1>Task List</h1>
-            <AddTask />
+            <AddTask length={data.length}/>
             
         </div>
         {(loading)?
         <>
-            {/*List of birds is loading*/}
-            <h3>loading birds...</h3>
+            {/*List of tasks is loading*/}
+            <h3>loading tasks...</h3>
         </>
         :
         <>
             {(!failed)?
                 <>
-                    {/*List of birds is done loading*/}
+                    {/*List of tasks is done loading*/}
                     {taskItems}
                 </>
                 :
                 <>
-                    {/*List of birds FAILED loading*/}
+                    {/*List of tasks FAILED loading*/}
                     <p>failed loading list</p>
                 </>}
             
