@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Switch } from 'react-router'
+import Tags from './tags'
 
 /*
 
@@ -161,7 +162,11 @@ function Task(props) {
             "time_added": props.data.time_added,
             "id": props.data.id
         }
-        await updateTask(obj, (props.completed)? 'completed' : 'tasks')
+        let resp = await updateTask(obj, (props.completed)? 'completed' : 'tasks')
+
+        if((await resp).status != 200)
+        // failed updating changes
+            alert("couldn't save edit")
         
         props.setRemovedTask(props.data.id)
         setEditing(false)
@@ -189,10 +194,15 @@ function Task(props) {
                 <button onClick={ () => setEditing(!editing) }>
                     {(editing)? "stop editing" : "edit" }
                 </button>
+                <br />
                 {description}
                 <button onClick={ handleDeletion }>
                     delete
                 </button>
+                <br/>
+                <div className="tag-box">
+                    <Tags tags={tags}/>
+                </div>
             </div>
             :
             <div className="task-item">
@@ -203,6 +213,9 @@ function Task(props) {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
+                <div className="tag-box">
+                    <Tags tags={tags}/>
+                </div>
                 <button disabled={loading} onClick={ handleFinishedEditing }>
                     {(editing)? "stop editing" : "edit" }
                 </button>

@@ -1,0 +1,25 @@
+
+
+/* TAG STYLING */
+
+/* container for horizontal scrolling */
+.tag-box {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.inner-tag-container {
+    flex: 0 0 auto;
+    float: left;
+    margin: 1em;    
+}
+
+.ind-tag {
+    width: fit-content;
+    height: min-content;
+    justify-content: center;
+    border-radius: 500px;
+    padding: 10px 10px;
+    margin-right: 0.5em;
+}
