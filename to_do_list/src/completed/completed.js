@@ -37,7 +37,7 @@ function Completed() {
             setData(temp)
 
             setTaskItems(temp.map((b) =>
-                <Task data={b} setRemovedTask={setRemovedTask}/>
+                <Task data={b} setRemovedTask={setRemovedTask} completed={true}/>
             ))
         }
         else {
