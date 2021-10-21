@@ -23,3 +23,21 @@
     padding: 10px 10px;
     margin-right: 0.5em;
 }
+
+.ind-tag-delete {
+    width: fit-content;
+    height: min-content;
+    justify-content: center;
+    border-radius: 500px;
+    padding: 10px 10px;
+    margin-right: 0.5em;
+}
+
+.ind-tag-delete:hover {
+    background-color: red;
+    opacity: 0.6;
+}
+
+.ind-tag-delete-2 {
+    display: none;
+}

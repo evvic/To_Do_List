@@ -17,7 +17,7 @@ async function UpdateTags(obj, url_end) {
 }
 
 function Tags(props) {
-    //var tags = props.tags
+    const [localTags, setLocalTags] = useState(props.tags)
     const [data, setData] = useState([{}])
     const [loading, setLoading] = useState(true)
     const [failed, setFailed] = useState(false)
@@ -28,15 +28,37 @@ function Tags(props) {
     const [tag, setTag] = useState("")
     
     useEffect(() => {
+        console.log("in use effect")
         setLoading(true)
 
-        setTagItems(props.tags.map((b) =>
+        if(!props.editing) {
+            setTagItems(localTags.map((b) =>
                 <button key={b} className={"ind-tag"}>
                     {b}
                 </button>
             ))
+        }
+        else {
+            setTagItems(localTags.map((b) =>
+                <button key={b} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
+                    {b}
+                </button>
+            ))
+        }
+        
         setLoading(false)
-    }, [props.tags])
+    }, [localTags])
+
+    async function deleteTag(tag_name) {
+        let temptags = localTags
+        let ind = temptags.indexOf(tag_name)
+
+        if (ind !== -1) {
+            temptags.splice(ind, 1);
+        }
+
+        setLocalTags(temptags)
+    }
 
     const handleAddingTag = async () => {
 
@@ -45,28 +67,33 @@ function Tags(props) {
             return
         }
 
-        setLoading(true)
-
         if(tag === "" || tag === " ") {
             setTag("")
-            setLoading(false)
+            setEditing(false)
             return
         }
+
+        setLoading(true)
         
         //tags
-        let temptags = props.tags
+        let temptags = await props.tags
         temptags.push(tag)
-        props.setTags(temptags)
-
-        let obj = props.data
+        
+        let obj = await props.data
         console.log(props.data)
-        obj.tags = temptags
+        obj.tags = await temptags
 
         let resp = await UpdateTags(obj, (props.completed)? "completed" : "tasks")
 
-        setEditing(false)
+        
+        setLocalTags(temptags)
+        props.setTags(localTags)
 
+        setTag("")
+        setEditing(false)
         setLoading(false)
+
+        console.log(localTags)
     }
 
     return(
@@ -83,20 +110,19 @@ function Tags(props) {
                         +
                     </button>
                 :
-                    <div className={"ind-tag"}>
-                        <form>
-                            <button disabled={loading} onClick={ handleAddingTag }>
-                                {(loading)? "adding..." : "add" }
-                            </button>
-                            <input
-                                type="text"
-                                placeholder="add new tag"
-                                name="tag"
-                                value={tag}
-                                onChange={(e) => setTag(e.target.value)}
-                            />
-                        </form>
-                    </div>
+                    <form className={"ind-tag"}>
+                        <button className={"ind-tag"} disabled={loading} onClick={ handleAddingTag }>
+                            {(loading)? "adding..." : "add" }
+                        </button>
+                        <input
+                            className={"ind-tag"}
+                            type="text"
+                            placeholder="add new tag"
+                            name="tag"
+                            value={tag}
+                            onChange={(e) => setTag(e.target.value)}
+                        />
+                    </form>
                 }
                 
                 {tagItems}
