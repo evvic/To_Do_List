@@ -106,10 +106,12 @@ function Tags(props) {
         :
             <div className={"inner-tag-container"}>
                 {(!editing)?
+                //NOT editing
                     <button className={"ind-tag"} onClick={ handleAddingTag } >
                         +
                     </button>
                 :
+                //editing
                     <form className={"ind-tag"}>
                         <button className={"ind-tag"} disabled={loading} onClick={ handleAddingTag }>
                             {(loading)? "adding..." : "add" }

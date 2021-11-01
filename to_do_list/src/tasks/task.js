@@ -3,10 +3,6 @@ import axios from 'axios'
 import { Switch } from 'react-router'
 import Tags from './tags'
 
-/*
-
-*/
-
 async function GetTasks() {
     const url = 'http://localhost:3010/tasks'
     try {
@@ -17,7 +13,7 @@ async function GetTasks() {
         console.log(error)
         return "error"
     }
-    
+
 }
 
 async function updateTask(obj, url_end) {
@@ -61,10 +57,9 @@ async function addTaskCompleted(obj, url_end) {
     }
 }
 
-
 /*
     Have an edit button to toggle between editing the task and that changes the text to actaully
-    be editable and saved as well. 
+    be editable and saved as well.
 */
 
 function Task(props) {
@@ -79,24 +74,24 @@ function Task(props) {
 
     async function Loading() {
         //setLoading(true)
-        
+
         let temp = null
         //temp = await GetTasks()
-    
+
         console.log(temp)
-    
+
         // make sure temp is not null
         if(temp !== "error") {
             setData(temp)
-    
+
         }
         else {
             setData([{"name": "error"}])
             //setFailed(true)
         }
-        
+
         setLoading(false)
-    } 
+    }
 
     const markCompleted = async () => {
         setLoading(true)
@@ -107,7 +102,7 @@ function Task(props) {
         if(props.completed)
             //delete task from completed list
             status = await deleteTask(props.data, 'completed')
-        else 
+        else
             //delete task from task list
             status = await deleteTask(props.data, 'tasks')
 
@@ -115,7 +110,7 @@ function Task(props) {
         if((await status).status == 200) {
             // successfully deleted task, now add to completed
             props.data.id = null
-            if(props.completed) 
+            if(props.completed)
                 // add task to to-do list
                 status = await addTaskCompleted(props.data, 'tasks')
             else
@@ -141,7 +136,7 @@ function Task(props) {
         if(props.completed)
             //delete task from completed list
             status = await deleteTask(props.data, 'completed')
-        else 
+        else
             //delete task from task list
             status = await deleteTask(props.data, 'tasks')
 
@@ -167,18 +162,23 @@ function Task(props) {
         if((await resp).status != 200)
         // failed updating changes
             alert("couldn't save edit")
-        
+
         props.setRemovedTask(props.data.id)
         setEditing(false)
         setLoading(false)
     }
-    
+
     useEffect(() => {
         //Loading()
     }, [tags])
 
     return(
-        <li key={props.data.id}>
+        <li key={props.data.id} id={props.data.id}
+            draggable={true}
+            onDragOver={(ev) => ev.preventDefault()}
+            onDragStart={props.handleDrag}
+            onDrop={props.handleDrop}
+            >
             {(!editing)?
             //not editing the task card
             <div className="task-item">
