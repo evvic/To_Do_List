@@ -28,7 +28,19 @@ async function UpdateTask(obj, url_end) {
     }
 }
 
-function Tasks() {
+function CollectTags(data) {
+    var tag_list = []
+    for(let task of data) {
+        for(let tag of task.tags) {
+            tag_list.push(tag)
+        }
+    }
+    console.log("collected tags: ", tag_list)
+
+    return tag_list
+}
+
+function Tasks(props) {
     const [data, setData] = useState([{}])
     const [loading, setLoading] = useState(true)
     const [failed, setFailed] = useState(false)
@@ -44,6 +56,10 @@ function Tasks() {
     };
 
     const handleDrop = (ev) => {
+        // do nothing if the ID's are the same
+        if(dragId === ev.currentTarget.id) return;
+
+        // else swap tasks if ID's are different
         const dragBox = data.find((task) => task.id == dragId);
         const dropBox = data.find((task) => task.id == ev.currentTarget.id);
 
@@ -82,15 +98,14 @@ function Tasks() {
 
         // make sure temp is not null
         if(temp !== "error") {
+            // temporarily set data
             setData(temp)
-            /*
-            setTaskItems(temp
-                .sort((a, b) => a.order - b.order)
-                .map((b) =>
-                <Task data={b} setRemovedTask={setRemovedTask}  completed={false}
-                    handleDrag={handleDrag} handleDrop={handleDrop} />
-            ))
-            */
+
+            // collect all relevant tags for tag filtering
+            props.setAllTags(CollectTags(temp))
+
+            // check each task has a unique tag, if not change task's order #
+            //for(let temptask in )
         }
         else {
             setData([{"name": "error"}])
@@ -125,13 +140,32 @@ function Tasks() {
     }
 
     useEffect(() => {
+        // initialization!
         Loading()
-    }, [/* removedTask */])
+    }, [removedTask])
 
     useEffect(() => {
         console.log("track data", track)
         setData([...track].sort((a, b) => a.order - b.order))
     }, [track])
+
+    useEffect(() => {
+        console.log("props.filterTag", props.filterTag)
+
+        async function checks() {
+            //refreshes data
+            let tempdata = await data
+            setLoading(true)
+            setData([{}])
+            setData(tempdata)
+            setLoading(false)
+        }
+
+        // only run this function if data is already loaded
+        if(data !== null)
+            checks()
+
+    }, [props.filterTag])
 
     return(
         <>
@@ -152,10 +186,16 @@ function Tasks() {
                     {/*List of tasks is done loading*/}
 
                     {[...data]
-                        .sort((a, b) => a.order - b.order)
+                        .filter((d) => (props.filterTag)?
+                            d.tags.find((t) => t === props.filterTag)
+                            :
+                            true )
+                        // sort goes from highest order # to lowest
+                        .sort((a, b) => b.order - a.order)
                         .map((b) =>
-                        <Task data={b} setRemovedTask={setRemovedTask}  completed={false}
-                            handleDrag={handleDrag} handleDrop={handleDrop} />
+                        <Task data={b} key={data.id} setRemovedTask={setRemovedTask}  completed={false}
+                            handleDrag={handleDrag} handleDrop={handleDrop} filterTag={props.filterTag}
+                            setAllTags={props.setAllTags} allTags={props.allTags} />
                     )}
                 </>
                 :

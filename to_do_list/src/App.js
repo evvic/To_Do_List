@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
@@ -6,14 +6,17 @@ import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 import Info from './info';
 import Completed from './completed/completed';
 import TaskPage from './tasks/taskpage';
+import Tags from './tasks/tags';
 
-class App extends React.Component {
-  render() {
-    const navClass = 'colors' + this.props.colorModeFromReduxStore;
+function App()  {
+
+
+    //const navClass = 'colors' + this.props.colorModeFromReduxStore;
+
     return (
       <BrowserRouter>
         <div className="App">
-          <nav className={navClass}>
+          <nav className='navbar'>
             <ul>
               <li className="nav-item">
                 <Link to="/">Tasks</Link>
@@ -27,7 +30,7 @@ class App extends React.Component {
             </ul>
           </nav>
           <Switch>
-            <Route path="/" exact component={TaskPage}/>
+            <Route path="/" exact component={TaskPage} />
             <Route path="/completed" component={Completed} />
             <Route path="/info" component={Info} />
             <Route path="/">
@@ -37,7 +40,6 @@ class App extends React.Component {
         </div>
       </BrowserRouter>
     );
-  }
 }
 
 export default App;

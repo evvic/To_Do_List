@@ -11,9 +11,9 @@ async function UpdateTags(obj, url_end) {
     }
     catch(error){
         console.log(error)
-        return error
+        return "error"
     }
-    
+
 }
 
 function Tags(props) {
@@ -26,12 +26,13 @@ function Tags(props) {
     const [editing, setEditing] = useState(false)
 
     const [tag, setTag] = useState("")
-    
+
     useEffect(() => {
         console.log("in use effect")
         setLoading(true)
 
         if(!props.editing) {
+            console.log("localTags", localTags)
             setTagItems(localTags.map((b) =>
                 <button key={b} className={"ind-tag"}>
                     {b}
@@ -45,7 +46,7 @@ function Tags(props) {
                 </button>
             ))
         }
-        
+
         setLoading(false)
     }, [localTags])
 
@@ -62,32 +63,56 @@ function Tags(props) {
 
     const handleAddingTag = async () => {
 
+        setLoading(true)
+
         if(!editing) {
             setEditing(true)
+            setLoading(false)
             return
         }
 
         if(tag === "" || tag === " ") {
             setTag("")
             setEditing(false)
+            setLoading(false)
             return
         }
 
-        setLoading(true)
-        
+        if(tag.length > 16) {
+            setTag("")
+            setEditing(false)
+            setLoading(false)
+            console.log("Tag cannot be longer than 16 characters.")
+            return
+        }
+
         //tags
         let temptags = await props.tags
         temptags.push(tag)
-        
+
+        //add tag locally to str array of allTags
+        let allTempTags = await props.allTags
+        allTempTags.push(tag)
+        //console.log("@@allTempTags", allTempTags)
+        props.setAllTags(allTempTags)
+        //console.log("@@allTags", props.allTags)
+
+
+        setLocalTags(temptags)
+        props.setTags(localTags)
+
         let obj = await props.data
         console.log(props.data)
         obj.tags = await temptags
 
         let resp = await UpdateTags(obj, (props.completed)? "completed" : "tasks")
 
-        
-        setLocalTags(temptags)
-        props.setTags(localTags)
+        if(resp !== "error") {
+            console.log("Successfully added tag to object in database.")
+        }
+        else {
+            console.log("Error. could not update database with new tag.")
+        }
 
         setTag("")
         setEditing(false)
@@ -107,11 +132,18 @@ function Tags(props) {
             <div className={"inner-tag-container"}>
                 {(!editing)?
                 //NOT editing
+                <>
                     <button className={"ind-tag"} onClick={ handleAddingTag } >
                         +
                     </button>
+                    {localTags.map((b) =>
+                    <button key={b} className={(b !== props.filterTag)? "ind-tag" : "ind-tag-selected"}>
+                        {b}
+                    </button>)}
+                </>
                 :
                 //editing
+                <>
                     <form className={"ind-tag"}>
                         <button className={"ind-tag"} disabled={loading} onClick={ handleAddingTag }>
                             {(loading)? "adding..." : "add" }
@@ -125,9 +157,15 @@ function Tags(props) {
                             onChange={(e) => setTag(e.target.value)}
                         />
                     </form>
+                    {localTags
+
+                        .map((b) =>
+                        <button key={b} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
+                            {b}
+                        </button>
+                    )}
+                </>
                 }
-                
-                {tagItems}
             </div>
 
         }

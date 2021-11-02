@@ -173,7 +173,7 @@ function Task(props) {
     }, [tags])
 
     return(
-        <li key={props.data.id} id={props.data.id}
+        <li key={props.key} id={props.data.id}
             draggable={true}
             onDragOver={(ev) => ev.preventDefault()}
             onDragStart={props.handleDrag}
@@ -201,7 +201,9 @@ function Task(props) {
                 </button>
                 <br/>
                 <div className="tag-box">
-                    <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed} editing={editing}/>
+                    <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed}
+                        editing={editing} filterTag={props.filterTag}
+                        setAllTags={props.setAllTags} allTags={props.allTags}/>
                 </div>
             </div>
             :
@@ -214,7 +216,9 @@ function Task(props) {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 <div className="tag-box">
-                    <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed} editing={editing}/>
+                    <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed}
+                        editing={editing} filterTag={props.filterTag}
+                        setAllTags={props.setAllTags} allTags={props.allTags}/>
                 </div>
                 <button disabled={loading} onClick={ handleFinishedEditing }>
                     {(editing)? "stop editing" : "edit" }
