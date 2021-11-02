@@ -41,14 +41,14 @@ function CollectTags(data) {
 }
 
 function Tasks(props) {
-    const [data, setData] = useState([{}])
+    const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [failed, setFailed] = useState(false)
     const [taskItems, setTaskItems] = useState(0)
     const [removedTask, setRemovedTask] = useState(null)
     // reordering tasks
     const [dragId, setDragId] = useState();
-    const [track, setTrack] = useState([{}])
+    const [track, setTrack] = useState(null)
 
 
     const handleDrag = (ev) => {
@@ -94,7 +94,7 @@ function Tasks(props) {
         let temp = null
         temp = await GetTasks()
 
-        console.log(temp)
+        console.log("Loading() data", temp)
 
         // make sure temp is not null
         if(temp !== "error") {
@@ -105,7 +105,12 @@ function Tasks(props) {
             props.setAllTags(CollectTags(temp))
 
             // check each task has a unique tag, if not change task's order #
-            //for(let temptask in )
+            temp = await [...temp].sort((a, b) => b.order - a.order)
+
+            for(let i = 0; i < temp.length; i++) {
+                temp[i].order = temp.length - i
+            }
+            setData(temp)
         }
         else {
             setData([{"name": "error"}])
@@ -139,14 +144,14 @@ function Tasks(props) {
         setLoading(false)
     }
 
-    useEffect(() => {
-        // initialization!
-        Loading()
-    }, [removedTask])
 
     useEffect(() => {
-        console.log("track data", track)
-        setData([...track].sort((a, b) => a.order - b.order))
+        // only run this function if data is already loaded
+        if(track !== null && data !== null) {
+            console.log("track data", track, data)
+            setData([...track].sort((a, b) => b.order - a.order))
+            setTrack(null)
+        }
     }, [track])
 
     useEffect(() => {
@@ -162,18 +167,21 @@ function Tasks(props) {
         }
 
         // only run this function if data is already loaded
-        if(data !== null)
+        if(data !== null) {
+            console.log("refreshing data")
             checks()
+        }
 
     }, [props.filterTag])
 
+    useEffect(() => {
+        // initialization!
+        Loading()
+    }, [removedTask])
+
     return(
         <>
-        <div className="info">
-            <h1>Task List</h1>
-            <AddTask length={data.length}/>
 
-        </div>
         {(loading)?
         <>
             {/*List of tasks is loading*/}
@@ -181,6 +189,11 @@ function Tasks(props) {
         </>
         :
         <>
+        <div className="info">
+            <h1>Task List</h1>
+            <AddTask length={data.length}/>
+
+        </div>
             {(!failed)?
                 <>
                     {/*List of tasks is done loading*/}

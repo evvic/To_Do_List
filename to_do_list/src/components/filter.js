@@ -2,13 +2,27 @@ import React, { useState, useEffect } from 'react'
 
 function Filter(props) {
     //const [allTags, setAllTags] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loadingFilterTags, setLoadingFilterTags] = useState(true)
+    const loadingTags = [" -- ", " -- ", " -- ", " -- ", " -- "]
+    const [allSortedTags, setAllSortedTags] = useState(loadingTags)
 
     useEffect(() => {
-        setLoading(true)
-        console.log("all tags back in filter page", props.allTags)
-        setLoading(false)
-    }, [props.allTags])
+        async function loading() {
+            setLoadingFilterTags(true)
+            //console.log("all tags back in filter page", props.allTags)
+            let temptags = await props.allTags
+
+            temptags = await temptags.sort((a, b) => a.localeCompare(b))
+
+            setAllSortedTags(temptags)
+
+            setLoadingFilterTags(false)
+        }
+
+        //if(props.allTags !== null)
+        loading()
+
+    }, [props.allTags, props.filterTag])
 
     async function handleTagSelection(tag_name) {
         console.log(tag_name)
@@ -23,13 +37,26 @@ function Filter(props) {
     return(
         <div className="tag-box">
             <div className="inner-tag-container">
-
-                {[...new Set(props.allTags)]
+                {(!loadingFilterTags)?
+                <>
+                {[...new Set(allSortedTags)]
                     .map((b) =>
                     <button key={b} className={(b !== props.filterTag)? "ind-tag" : "ind-tag-selected"}
                         onClick={() => handleTagSelection(b) }>
                         {b}
                     </button>)}
+                </>
+                    :
+                <>
+                {[...new Set(loadingTags)]
+                    .map((b) =>
+                    <button key={b} className={"ind-tag"}>
+                        {b}
+                    </button>)}
+                </>
+                }
+
+
             </div>
         </div>
     )

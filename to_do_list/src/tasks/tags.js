@@ -29,26 +29,31 @@ function Tags(props) {
 
     useEffect(() => {
         console.log("in use effect")
+
         setLoading(true)
 
-        if(!props.editing) {
-            console.log("localTags", localTags)
-            setTagItems(localTags.map((b) =>
-                <button key={b} className={"ind-tag"}>
-                    {b}
-                </button>
-            ))
-        }
-        else {
-            setTagItems(localTags.map((b) =>
-                <button key={b} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
-                    {b}
-                </button>
-            ))
+        setLocalTags(props.tags)
+
+        if(localTags) {
+            if(!props.editing) {
+                setTagItems(localTags.map((b) =>
+                    <button key={b} className={"ind-tag"}>
+                        {b}
+                    </button>
+                ))
+            }
+            else {
+                setTagItems(localTags.map((b) =>
+                    <button key={b} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
+                        {b}
+                    </button>
+                ))
+            }
+
+            setLoading(false)
         }
 
-        setLoading(false)
-    }, [localTags])
+    }, [localTags, props.tags])
 
     async function deleteTag(tag_name) {
         let temptags = localTags
@@ -71,7 +76,8 @@ function Tags(props) {
             return
         }
 
-        if(tag === "" || tag === " ") {
+        if (!tag.trim().length) {
+            console.log("Tag ust contain more than whitespace!");
             setTag("")
             setEditing(false)
             setLoading(false)
@@ -79,10 +85,19 @@ function Tags(props) {
         }
 
         if(tag.length > 16) {
+            console.log("Tag cannot be longer than 16 characters.")
             setTag("")
             setEditing(false)
             setLoading(false)
-            console.log("Tag cannot be longer than 16 characters.")
+            return
+        }
+
+        // prevent user from adding the same tag twice
+        if(localTags.find((t) => t === tag) || props.tags.find((t) => t === tag)) {
+            console.log("Cannot add the same tag twice")
+            setTag("")
+            setEditing(false)
+            setLoading(false)
             return
         }
 
