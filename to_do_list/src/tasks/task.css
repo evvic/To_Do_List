@@ -24,6 +24,16 @@
     margin-right: 0.5em;
 }
 
+.ind-tag-add {
+    width: fit-content;
+    height: min-content;
+    justify-content: center;
+    border-radius: 500px;
+    padding: 10px 10px;
+    margin-right: 0.5em;
+    background-color: mediumturquoise;
+}
+
 .ind-tag-selected {
     width: fit-content;
     height: min-content;

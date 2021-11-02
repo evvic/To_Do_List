@@ -6,7 +6,7 @@ async function UpdateTags(obj, url_end) {
     const url = 'http://localhost:3010/' + `${url_end}/${obj.id}`
     try {
         const response = await axios.put(url, obj)
-        console.log(response)
+        //console.log(response)
         return response
     }
     catch(error){
@@ -23,7 +23,7 @@ function Tags(props) {
     const [failed, setFailed] = useState(false)
     const [tagItems, setTagItems] = useState([])
     const [removedTask, setRemovedTask] = useState(null)
-    const [editing, setEditing] = useState(false)
+    const [editingTags, setEditingTags] = useState(false)
 
     const [tag, setTag] = useState("")
 
@@ -56,30 +56,58 @@ function Tags(props) {
     }, [localTags, props.tags])
 
     async function deleteTag(tag_name) {
-        let temptags = localTags
-        let ind = temptags.indexOf(tag_name)
+        /// remove tag from local tags
+        let temptags = await localTags
+        //console.log("temptags init", temptags)
+        let ind = await temptags.indexOf(tag_name)
+        //console.log("ind of tag to be removed", ind, tag_name)
 
         if (ind !== -1) {
             temptags.splice(ind, 1);
         }
 
+        //console.log("temptags after splice", temptags)
+        props.setTags(temptags)
         setLocalTags(temptags)
+
+        /// remove tag from ALL TAGS array
+        temptags = await props.allTags
+        ind = await temptags.indexOf(tag_name)
+
+        if (ind !== -1) {
+            temptags.splice(ind, 1);
+        }
+
+        props.setAllTags(temptags)
+
+        let obj = await props.data
+        obj.tags = await temptags
+
+        let resp = await UpdateTags(obj, (props.completed)? "completed" : "tasks")
+
+        if(resp !== "error") {
+            console.log("Successfully removed tag.")
+        }
+        else {
+            console.log("Error. Could not update object with removed tag.")
+        }
     }
 
     const handleAddingTag = async () => {
 
         setLoading(true)
 
-        if(!editing) {
-            setEditing(true)
+        // enter editing mode if not there already
+        if(editingTags === false) {
+            setEditingTags(true)
             setLoading(false)
             return
         }
 
         if (!tag.trim().length) {
-            console.log("Tag ust contain more than whitespace!");
+            console.log("Tag must contain more than whitespaces!");
             setTag("")
-            setEditing(false)
+            setEditingTags(false)
             setLoading(false)
             return
         }
@@ -87,7 +115,7 @@ function Tags(props) {
         if(tag.length > 16) {
             console.log("Tag cannot be longer than 16 characters.")
             setTag("")
-            setEditing(false)
+            setEditingTags(false)
             setLoading(false)
             return
         }
@@ -96,7 +124,7 @@ function Tags(props) {
         if(localTags.find((t) => t === tag) || props.tags.find((t) => t === tag)) {
             console.log("Cannot add the same tag twice")
             setTag("")
-            setEditing(false)
+            setEditingTags(false)
             setLoading(false)
             return
         }
@@ -104,17 +132,13 @@ function Tags(props) {
         //tags
         let temptags = await props.tags
         temptags.push(tag)
+        setLocalTags(temptags)
+        props.setTags(localTags)
 
         //add tag locally to str array of allTags
         let allTempTags = await props.allTags
         allTempTags.push(tag)
-        //console.log("@@allTempTags", allTempTags)
         props.setAllTags(allTempTags)
-        //console.log("@@allTags", props.allTags)
-
-
-        setLocalTags(temptags)
-        props.setTags(localTags)
 
         let obj = await props.data
         console.log(props.data)
@@ -130,10 +154,8 @@ function Tags(props) {
         }
 
         setTag("")
-        setEditing(false)
+        setEditingTags(false)
         setLoading(false)
-
-        console.log(localTags)
     }
 
     return(
@@ -144,25 +166,11 @@ function Tags(props) {
                 <p>loading tags...</p>
             </>
         :
-            <div className={"inner-tag-container"}>
-                {(!editing)?
-                //NOT editing
+            <>
+                {(editingTags)?
+                //editing (adding tag)
                 <>
-                    <button className={"ind-tag"} onClick={ handleAddingTag } >
-                        +
-                    </button>
-                    {localTags.map((b) =>
-                    <button key={b} className={(b !== props.filterTag)? "ind-tag" : "ind-tag-selected"}>
-                        {b}
-                    </button>)}
-                </>
-                :
-                //editing
-                <>
-                    <form className={"ind-tag"}>
-                        <button className={"ind-tag"} disabled={loading} onClick={ handleAddingTag }>
-                            {(loading)? "adding..." : "add" }
-                        </button>
+                    <form className={"inner-tag-container"}>
                         <input
                             className={"ind-tag"}
                             type="text"
@@ -171,18 +179,51 @@ function Tags(props) {
                             value={tag}
                             onChange={(e) => setTag(e.target.value)}
                         />
+                        <button className={"ind-tag-add"} disabled={loading} onClick={ handleAddingTag }>
+                            {(loading)? "adding..." : (!tag.trim().length)? "exit" : "add" }
+                        </button>
                     </form>
-                    {localTags
-
+                    <div className={"inner-tag-container"}>
+                    {[...new Set(localTags)]
                         .map((b) =>
-                        <button key={b} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
+                        <button key={b.uniqueId} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
                             {b}
                         </button>
                     )}
+                    </div>
+                </>
+                :
+                //NOT editing (not adding tag)
+                <>
+                    <div className={"inner-tag-container"}>
+                        <button className={"ind-tag"} onClick={ handleAddingTag } >
+                            +
+                        </button>
+                        {(props.editing)?
+                        //task is being edited: can delete tags
+                        <>
+                        {[...new Set(localTags)]
+                            .map((b) =>
+                            <button key={b.uniqueId} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
+                                {b}
+                            </button>
+                        )}
+                        </>
+                        :
+                        <>
+                        {[...new Set(localTags)]
+                            .map((b) =>
+                            <button key={b.uniqueId} className={(b !== props.filterTag)? "ind-tag" : "ind-tag-selected"}>
+                                {b}
+                        </button>)}
+                        </>
+                    }
+
+                    </div>
+
                 </>
                 }
-            </div>
-
+            </>
         }
         </>
     )

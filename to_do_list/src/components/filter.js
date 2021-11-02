@@ -40,8 +40,8 @@ function Filter(props) {
                 {(!loadingFilterTags)?
                 <>
                 {[...new Set(allSortedTags)]
-                    .map((b) =>
-                    <button key={b} className={(b !== props.filterTag)? "ind-tag" : "ind-tag-selected"}
+                    .map((b, i) =>
+                    <button key={i} className={(b !== props.filterTag)? "ind-tag" : "ind-tag-selected"}
                         onClick={() => handleTagSelection(b) }>
                         {b}
                     </button>)}

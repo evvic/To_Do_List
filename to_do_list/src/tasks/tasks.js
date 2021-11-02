@@ -206,7 +206,7 @@ function Tasks(props) {
                         // sort goes from highest order # to lowest
                         .sort((a, b) => b.order - a.order)
                         .map((b) =>
-                        <Task data={b} key={data.id} setRemovedTask={setRemovedTask}  completed={false}
+                        <Task data={b} key={b.uniqueId} setRemovedTask={setRemovedTask}  completed={false}
                             handleDrag={handleDrag} handleDrop={handleDrop} filterTag={props.filterTag}
                             setAllTags={props.setAllTags} allTags={props.allTags} />
                     )}
