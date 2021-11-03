@@ -145,8 +145,8 @@ function Task(props) {
             props.setRemovedTask(removedId)
     }
 
-    const handleFinishedEditing = async () => {
-        setLoading(true)
+    const handleFinishedTyping = async () => {
+        console.log("handleFinishedTyping", description)
         let d = new Date()
 
         let obj = {
@@ -164,8 +164,6 @@ function Task(props) {
             alert("couldn't save edit")
 
         props.setRemovedTask(props.data.id)
-        setEditing(false)
-        setLoading(false)
     }
 
     useEffect(() => {
@@ -209,9 +207,12 @@ function Task(props) {
 
                 <textarea
                     //oninput='this.style.height = "";this.style.height = this.scrollHeight + 3 + "px"'
-                    rows={3}
+                    rows={4}
+                    maxLength={140}
+                    wrap={"soft"}
                     value={description}
-                    onChange={(e) => setDescription(e.value)}
+                    onChange={(e) => setDescription(e.target.value)}
+                    onBlur={ handleFinishedTyping }
                     disabled={false}>
                         {description}
 
@@ -236,9 +237,6 @@ function Task(props) {
                         editing={editing} filterTag={props.filterTag}
                         setAllTags={props.setAllTags} allTags={props.allTags}/>
                 </div>
-                <button disabled={loading} onClick={ handleFinishedEditing }>
-                    {(editing)? "stop editing" : "edit" }
-                </button>
             </div>}
         </li>
     )
