@@ -3,8 +3,8 @@ import AddTask from './addtask';
 import Task from './task';
 import axios from 'axios'
 
-async function GetTasks() {
-    const url = 'http://localhost:3010/tasks'
+async function GetTasks(url_end) {
+    const url = 'http://localhost:3010/' + url_end
     try {
         const data = await axios.get(url)
         return data.data
@@ -92,7 +92,7 @@ function Tasks(props) {
         setLoading(true)
 
         let temp = null
-        temp = await GetTasks()
+        temp = await GetTasks(props.completed)
 
         console.log("Loading() data", temp)
 
@@ -123,11 +123,11 @@ function Tasks(props) {
     async function UpdateSwap(obj1, obj2) {
         setLoading(true)
 
-        let resp = await UpdateTask(obj1, "tasks")
+        let resp = await UpdateTask(obj1, props.completed)
 
         if(resp !== "error") {
             console.log("updated database")
-            resp = await UpdateTask(obj2, "tasks")
+            resp = await UpdateTask(obj2, props.completed)
 
             if(resp !== "error") {
                 console.log("Successfully saved switch to database")
@@ -190,7 +190,6 @@ function Tasks(props) {
         :
         <>
         <div className="info">
-            <h1>Task List</h1>
             <AddTask length={data.length}/>
 
         </div>
@@ -206,7 +205,8 @@ function Tasks(props) {
                         // sort goes from highest order # to lowest
                         .sort((a, b) => b.order - a.order)
                         .map((b) =>
-                        <Task data={b} key={b.uniqueId} setRemovedTask={setRemovedTask}  completed={false}
+                        <Task data={b} key={b.uniqueId} setRemovedTask={setRemovedTask}
+                            completed={(props.completed === "completed")? true : false}
                             handleDrag={handleDrag} handleDrop={handleDrop} filterTag={props.filterTag}
                             setAllTags={props.setAllTags} allTags={props.allTags} />
                     )}

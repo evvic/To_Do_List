@@ -3,10 +3,11 @@ import './App.css';
 
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 //import {connect} from 'react-redux';
-import Info from './info';
-import Completed from './completed/completed';
-import TaskPage from './tasks/taskpage';
+import Info from './pages/info';
+//import Completed from './completed/completed';
+import TaskPage from './pages/taskpage';
 import Tags from './tasks/tags';
+import CompletedPage from './pages/completedpage';
 
 function App()  {
 
@@ -31,7 +32,7 @@ function App()  {
           </nav>
           <Switch>
             <Route path="/" exact component={TaskPage} />
-            <Route path="/completed" component={Completed} />
+            <Route path="/completed" component={CompletedPage} />
             <Route path="/info" component={Info} />
             <Route path="/">
               <h1>Do not do that!</h1>

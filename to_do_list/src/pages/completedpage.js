@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Filter from '../components/filter'
-import Tasks from './tasks'
+import Tasks from '../tasks/tasks'
 
-function TaskPage() {
+function CompletedPage() {
+    console.log("in Completed Page")
     const [allTags, setAllTags] = useState([])
     const [filterTag, setFilterTag] = useState(null)
 
@@ -12,12 +13,14 @@ function TaskPage() {
 
     return(
         <div className="taskpage">
+            { /* <Completed /> */}
+            {/* change so isntead of using Completed component is uses Tasks component dynamically */}
             <Filter allTags={allTags} setFilterTag={setFilterTag} filterTag={filterTag} />
-            <h1>Tasks going here</h1>
+            <h1>Completed Tasks</h1>
             <p>~ search bar ~</p>
-            <Tasks setAllTags={setAllTags} allTags={allTags} filterTag={filterTag}/>
+            <Tasks completed={"completed"} setAllTags={setAllTags} allTags={allTags} filterTag={filterTag}/>
         </div>
     )
 }
 
-export default TaskPage;
+export default CompletedPage;
