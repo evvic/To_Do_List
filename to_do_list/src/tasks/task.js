@@ -178,28 +178,44 @@ function Task(props) {
             onDragOver={(ev) => ev.preventDefault()}
             onDragStart={props.handleDrag}
             onDrop={props.handleDrop}
+            className="task-item"
             >
             {(!editing)?
             //not editing the task card
-            <div className="task-item">
-                <label>
-                    <input
-                    type="checkbox"
-                    checked={completed}
-                    onChange={markCompleted}
-                    disabled={loading}
-                    />
-                    Completed
-                </label>
-                <button onClick={ () => setEditing(!editing) }>
-                    {(editing)? "stop editing" : "edit" }
-                </button>
-                <br />
-                {description}
-                <button onClick={ handleDeletion }>
-                    delete
-                </button>
-                <br/>
+            <div>
+                <div className="task-header">
+                    <label>
+                        <input
+                        className="check-box"
+                        type="checkbox"
+                        checked={completed}
+                        onChange={markCompleted}
+                        disabled={loading}
+                        />
+                    </label>
+                    {/*
+                    <button onClick={ () => setEditing(!editing)}>
+                        {(editing)? "stop editing" : "edit" }
+                    </button>
+                    */}
+
+                    <button onClick={ () => console.log("set alarm here") } className={"delete-btn"}>
+                        ⏰
+                    </button>
+                    <button onClick={ handleDeletion } className={"delete-btn"}>
+                        🗑️
+                    </button>
+                </div>
+
+                <textarea
+                    //oninput='this.style.height = "";this.style.height = this.scrollHeight + 3 + "px"'
+                    rows={3}
+                    value={description}
+                    onChange={(e) => setDescription(e.value)}
+                    disabled={false}>
+                        {description}
+
+                </textarea>
                 <div className="tag-box">
                     <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed}
                         editing={editing} filterTag={props.filterTag}

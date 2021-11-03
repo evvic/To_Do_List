@@ -1,4 +1,42 @@
+/* DARK MODE CONSTANTS */
+:root {
+    --bg-color: #3F3F3F;
+    --text-color: #fff;
+  }
 
+/* COMPONENTS INSIDE TASK */
+
+/* delete button */
+.delete-btn {
+    display:block;
+    width: min-content;
+    height: max-content;
+    border-radius: 500px;
+    padding: 8px 8px;
+    border: 0px;
+    background-color: transparent;
+    /* text */
+    font-size: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    background-color: lightgray;
+}
+
+/* TEXT AREA DARK MODE STYLING */
+textarea > {
+    color: wheat;
+}
+
+font > {
+    color: white;
+}
+
+button > {
+    background-color: black;
+}
 
 /* TAG STYLING */
 
@@ -7,13 +45,18 @@
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
+
 
 .inner-tag-container {
     flex: 0 0 auto;
     float: left;
     margin: 1em;
 }
+
+
 
 .ind-tag {
     width: fit-content;
@@ -22,6 +65,8 @@
     border-radius: 500px;
     padding: 10px 10px;
     margin-right: 0.5em;
+    background-color: transparent;
+    color: #fff;
 }
 
 .ind-tag-add {
@@ -41,7 +86,7 @@
     border-radius: 500px;
     padding: 10px 10px;
     margin-right: 0.5em;
-    background-color: slategrey;
+    background-color: lightblue;
 }
 
 .ind-tag-delete {

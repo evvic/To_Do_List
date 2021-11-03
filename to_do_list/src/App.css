@@ -1,3 +1,24 @@
+/* DARK MODE CONSTANTS */
+:root {
+  --bg-color: #3F3F3F;
+  --text-color: #fff;
+}
+
+div {
+  margin: 0px;
+  padding: 0px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+font {
+  color: var(--text-color);
+}
 
 body {
   font-family: sans-serif;
@@ -7,28 +28,47 @@ body {
   text-align: center;
 }
 
+::-webkit-scrollbar {
+  width: 60%;
+  height: .6rem;
+  color: aqua;
+  background-color: grey; /* or add it to the track */
+  overflow: hidden;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: .3rem;
+  background: #000;
+}
+
 nav {
   border-bottom: 1px solid black;
 }
 
 .colors0 {
-  background-color: lightgray;
+  background-color: var(--bg-color);
 }
 
 .colors1 {
   background-color: lightsteelblue;
 }
 
+/* change hyperlink color to contrast dark mode*/
+a {
+  color: lightsteelblue;
+}
 
 ul {
   list-style-type: none;
   padding-left: 0;
   margin-top: 0;
   padding-top: 1em;
+  color: #fff;
 }
 
 .nav-item, .last-nav-item {
   display: inline-block;
+  color: aliceblue;
 }
 
 .nav-item a::after {
@@ -40,26 +80,47 @@ ul {
   padding: 0 6px;
 }
 
-div {
-  margin: 0px;
-  padding: 0px;
-}
 
-
-button {
-  width: 30%;
-  line-height: 1em;
-  height: 3em;
-  margin-top: 1em;
-}
 
 img {
   max-width: 50%;
 }
 
+/* TASK CONTAINER FLEX STYLING */
+.task-container {
+  display: flex;
+  align-items: flex-start; /* height of each item is dependent on content inside */
+  justify-content: space-around;
+  /* flex-direction: row; */
+  flex-wrap: wrap; /* elements that don't fit go to next row */
+  flex: 1 0 26%;
+}
+
+/* TASK HEADER containing checkbox and delete button*/
+.task-header {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.check-box {
+  display:block;
+  margin: .8rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.check-box:hover {
+  background: blue;
+  color: blue;
+}
+
 /* SHOW TASK LIST STYLING */
 li {
   list-style-type: none;
+  color: #fff;
 }
 
 .items {
@@ -68,12 +129,32 @@ li {
 }
 
 .task-item {
+  /* flex styling */
+  flex: 1 1 2;
+  flex-grow: 2;
+  flex-shrink: 1;
+  max-width: 30rem;
+  min-width: 22rem;
+
+  /* other stylihg */
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  border-radius: 5px; /* 5px rounded corners */
+  border-radius: 1rem; /* 5px rounded corners */
   margin-top: 2em;
   margin-right: 4em;
   margin-left: 4em;
+  overflow: hidden; /* helps with rounding corners*/
+}
+
+textarea {
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  width: 95%;
+  height: 100%;
+  box-sizing: border-box;
+  color: #fff;
 }
 
 .task-itembody {

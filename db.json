@@ -12,7 +12,7 @@
         "steezy",
         "uff"
       ],
-      "order": 2,
+      "order": 3,
       "last_modified": "2021-11-02T20:51:50.262Z",
       "time_added": "2021-10-19T14:17:34.859Z",
       "id": 21
@@ -23,10 +23,20 @@
         "yyyyy",
         "buggin"
       ],
-      "order": 3,
+      "order": 1,
       "last_modified": "2021-11-02T23:22:45.750Z",
       "time_added": "2021-10-19T14:17:52.080Z",
       "id": 24
+    },
+    {
+      "description": "fefefef hehehe",
+      "tags": [
+        "fefefe"
+      ],
+      "order": 2,
+      "last_modified": "2021-10-20T17:06:03.728Z",
+      "time_added": "2021-10-20T10:54:54.415Z",
+      "id": 27
     },
     {
       "description": "totally new description",
@@ -34,63 +44,33 @@
         "aaa",
         "wacka"
       ],
-      "order": 4,
+      "order": 5,
       "last_modified": "2021-11-02T23:17:13.522Z",
       "time_added": "2021-10-20T10:22:26.548Z",
-      "id": 25
-    },
-    {
-      "description": "another another task p2",
-      "tags": [
-        "aaa",
-        "wacka",
-        "p2"
-      ],
-      "order": 2,
-      "last_modified": "2021-11-02T23:21:38.813Z",
-      "time_added": "2021-10-20T10:44:33.562Z",
-      "id": 26
-    }
-  ],
-  "completed": [
-    {
-      "description": "wdwdwd",
-      "tags": [],
-      "order": 6,
-      "last_modified": "2021-10-20T17:07:06.506Z",
-      "time_added": "2021-10-20T10:12:11.794Z",
-      "id": 32
-    },
-    {
-      "description": "order testing",
-      "tags": [
-        "order",
-        "anotha"
-      ],
-      "order": 5,
-      "last_modified": "",
-      "time_added": "2021-10-20T10:08:36.709Z",
-      "id": 38
-    },
-    {
-      "description": "fefefef hehehe",
-      "tags": [
-        "fefefe"
-      ],
-      "order": 1,
-      "last_modified": "2021-10-20T17:06:03.728Z",
-      "time_added": "2021-10-20T10:54:54.415Z",
-      "id": 44
+      "id": 29
     },
     {
       "description": "finish the full stack hw assignment",
       "tags": [
         "yeet"
       ],
-      "order": 1,
+      "order": 3,
       "last_modified": "2021-10-31T18:17:36.324Z",
       "time_added": "2021-11-02T17:42:15.332Z",
-      "id": 45
+      "id": 30
+    }
+  ],
+  "completed": [
+    {
+      "description": "order testing",
+      "tags": [
+        "order",
+        "anotha"
+      ],
+      "order": 1,
+      "last_modified": "",
+      "time_added": "2021-10-20T10:08:36.709Z",
+      "id": 38
     },
     {
       "description": "procrastinate",
@@ -101,24 +81,38 @@
         "austin",
         "d"
       ],
-      "order": 4,
-      "last_modified": "2021-11-02T18:37:07.958Z",
+      "order": 2,
+      "last_modified": "2021-11-03T18:25:11.850Z",
       "time_added": "2021-11-02T17:42:15.332Z",
       "id": 46
     },
     {
-      "description": "ayeeeee",
       "tags": [
-        "steezy",
-        "tag me",
-        "testtestets",
+        "aaa",
         "wacka",
-        "wacka"
+        "p2"
       ],
-      "order": 1,
-      "last_modified": "2021-11-02T23:24:51.006Z",
-      "time_added": "2021-10-19T14:17:52.080Z",
-      "id": 47
+      "order": 4,
+      "last_modified": "2021-11-03T18:34:55.893Z",
+      "time_added": "2021-10-20T10:44:33.562Z",
+      "id": 48
+    },
+    {
+      "description": "another another task p2",
+      "tags": [
+        "tt",
+        "adding",
+        "more",
+        "and more",
+        "tags",
+        "till this",
+        "scrolls",
+        "one"
+      ],
+      "order": 5,
+      "last_modified": "2021-11-03T21:36:23.927Z",
+      "time_added": "2021-11-03T21:10:22.431Z",
+      "id": 49
     }
   ]
 }

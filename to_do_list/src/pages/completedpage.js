@@ -13,7 +13,6 @@ function CompletedPage() {
 
     return(
         <div className="taskpage">
-            { /* <Completed /> */}
             {/* change so isntead of using Completed component is uses Tasks component dynamically */}
             <Filter allTags={allTags} setFilterTag={setFilterTag} filterTag={filterTag} />
             <h1>Completed Tasks</h1>

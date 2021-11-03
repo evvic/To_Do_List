@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import AddTask from './addtask';
 import Task from './task';
 import axios from 'axios'
+import '../App.css'
 
 async function GetTasks(url_end) {
     const url = 'http://localhost:3010/' + url_end
@@ -194,7 +195,7 @@ function Tasks(props) {
 
         </div>
             {(!failed)?
-                <>
+                <div className="task-container">
                     {/*List of tasks is done loading*/}
 
                     {[...data]
@@ -210,7 +211,7 @@ function Tasks(props) {
                             handleDrag={handleDrag} handleDrop={handleDrop} filterTag={props.filterTag}
                             setAllTags={props.setAllTags} allTags={props.allTags} />
                     )}
-                </>
+                </div>
                 :
                 <>
                     {/*List of tasks FAILED loading*/}
