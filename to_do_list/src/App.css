@@ -80,10 +80,58 @@ ul {
   padding: 0 6px;
 }
 
-
-
 img {
   max-width: 50%;
+}
+
+/* SEARCH BOX STYLING */
+.search-box {
+  display: flex;
+  margin: 0 auto;
+  border-style: groove;
+  border-width: 1px;
+  border-radius: 500px;
+  border-color: darkgray;
+  height: max-content;
+  width: 30%;
+}
+
+@media screen and (max-width: 700px) {
+  .search-box {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .search-box {
+    width: 90%;
+  }
+}
+
+/* help allign clear button */
+.search-text {
+  padding-top: 0.6rem;
+  padding-left: 0.5rem;
+}
+
+/* delete button */
+.clear-btn {
+  display:block;
+  width: min-content;
+  height: max-content;
+  border-radius: 500px;
+  border: 0px;
+  background-color: transparent;
+  padding: 0.5rem 0.85rem;
+  /* text */
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: none;
+  margin: 0;
+}
+
+.clear-btn:hover {
+  background-color: lightgray;
 }
 
 /* TASK CONTAINER FLEX STYLING */
@@ -144,6 +192,17 @@ li {
   margin-right: 4em;
   margin-left: 4em;
   overflow: hidden; /* helps with rounding corners*/
+}
+
+@media screen and (max-width: 600px) {
+  .task-item {
+    max-width: 20rem;
+    min-width: 18rem;
+  }
+}
+
+.task-item-hidden {
+  display: none;
 }
 
 textarea {

@@ -192,7 +192,6 @@ function Tasks(props) {
         <>
         <div className="info">
             <AddTask length={data.length}/>
-
         </div>
             {(!failed)?
                 <div className="task-container">
@@ -209,7 +208,7 @@ function Tasks(props) {
                         <Task data={b} key={b.uniqueId} setRemovedTask={setRemovedTask}
                             completed={(props.completed === "completed")? true : false}
                             handleDrag={handleDrag} handleDrop={handleDrop} filterTag={props.filterTag}
-                            setAllTags={props.setAllTags} allTags={props.allTags} />
+                            setAllTags={props.setAllTags} allTags={props.allTags} searchText={props.searchText}/>
                     )}
                 </div>
                 :

@@ -72,6 +72,8 @@ function Task(props) {
     const [description, setDescription] = useState(props.data.description)
     const [tags, setTags] = useState(props.data.tags)
 
+    const [liClassName, setLiClassName] = useState("task-item")
+
     async function Loading() {
         //setLoading(true)
 
@@ -168,7 +170,25 @@ function Task(props) {
 
     useEffect(() => {
         //Loading()
-    }, [tags])
+        if(props.searchText === null || props.searchText === "") {
+            // have this prop appear
+            setLiClassName("task-item")
+
+            //console.log("description", typeof description, description)
+        }
+        else {
+            // check if searchText is contained in description
+            // make sure description isn't null or undefined
+            if(description && description.includes(props.searchText)) {
+                //display task
+                setLiClassName("task-item")
+            }
+            else {
+                // hide task
+                setLiClassName("task-item-hidden")
+            }
+        }
+    }, [tags, props.searchText])
 
     return(
         <li key={props.key} id={props.data.id}
@@ -176,7 +196,7 @@ function Task(props) {
             onDragOver={(ev) => ev.preventDefault()}
             onDragStart={props.handleDrag}
             onDrop={props.handleDrop}
-            className="task-item"
+            className={liClassName}
             >
             {(!editing)?
             //not editing the task card
