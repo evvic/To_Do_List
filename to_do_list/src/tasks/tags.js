@@ -82,6 +82,7 @@ function Tags(props) {
 
         let obj = await props.data
         obj.tags = await temptags
+        obj.last_modified = new Date()
 
         let resp = await UpdateTags(obj, (props.completed)? "completed" : "tasks")
 
@@ -143,6 +144,9 @@ function Tags(props) {
         let obj = await props.data
         console.log(props.data)
         obj.tags = await temptags
+
+        obj.last_modified = new Date()
+
 
         let resp = await UpdateTags(obj, (props.completed)? "completed" : "tasks")
 

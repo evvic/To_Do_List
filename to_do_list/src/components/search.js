@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 /*
 Search returns a text that wil lbe filtered in tasks
 */
-function Search(props) {
 
-    const handleClear = async () => {
-        props.setSearchText("")
-    }
+function Search(props) {
 
     return(
         <div className="search-box">
@@ -24,7 +21,7 @@ function Search(props) {
                     {props.searchText}
 
             </textarea>
-            <button onClick={ handleClear } className={"clear-btn"}>
+            <button onClick={ () => props.setSearchText("") } className={"clear-btn"}>
                 x
             </button>
         </div>

@@ -160,8 +160,9 @@ function Tasks(props) {
 
         async function checks() {
             //refreshes data
-            let tempdata = await data
             setLoading(true)
+            let tempdata = await data
+            console.log("props.orderBy", props.orderBy)
             setData([{}])
             setData(tempdata)
             setLoading(false)
@@ -173,7 +174,7 @@ function Tasks(props) {
             checks()
         }
 
-    }, [props.filterTag])
+    }, [props.filterTag, props.orderBy])
 
     useEffect(() => {
         // initialization!
@@ -191,7 +192,7 @@ function Tasks(props) {
         :
         <>
         <div className="info">
-            <AddTask length={data.length}/>
+            {/*<AddTask length={data.length}/>*/}
         </div>
             {(!failed)?
                 <div className="task-container">
@@ -202,13 +203,15 @@ function Tasks(props) {
                             d.tags.find((t) => t === props.filterTag)
                             :
                             true )
-                        // sort goes from highest order # to lowest
-                        .sort((a, b) => b.order - a.order)
+                        // sort goes from highest order # to lowest OR latest
+                        .sort((a, b) => (props.orderBy === "order")? b.order - a.order
+                            : new Date(b.last_modified) - new Date(a.last_modified))
                         .map((b) =>
                         <Task data={b} key={b.uniqueId} setRemovedTask={setRemovedTask}
                             completed={(props.completed === "completed")? true : false}
                             handleDrag={handleDrag} handleDrop={handleDrop} filterTag={props.filterTag}
-                            setAllTags={props.setAllTags} allTags={props.allTags} searchText={props.searchText}/>
+                            setAllTags={props.setAllTags} allTags={props.allTags} searchText={props.searchText}
+                            orderBy={props.orderBy} />
                     )}
                 </div>
                 :

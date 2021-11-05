@@ -16,6 +16,21 @@ button {
   color: var(--text-color);
 }
 
+/* select & option for styling dropdown*/
+select {
+  background-color: transparent;
+  border-radius: 0%;
+  border-color: transparent;
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+option {
+  background-color: var(--bg-color);
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
 font {
   color: var(--text-color);
 }
@@ -84,10 +99,41 @@ img {
   max-width: 50%;
 }
 
+/* CONTAINER FOR SEARCH BAR AND DROPDOWN MENU */
+
+.wrap-filters {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x:hidden;
+  justify-content:space-evenly;
+  flex: 1 0 26%;
+}
+
+/* ORDER BOX STYLING */
+.order-box {
+  margin: 0.5rem;
+  display: flex;
+  flex: 1 1 2;
+  padding: 0.5rem;
+  border-style: groove;
+  border-width: 1px;
+  border-radius: 500px;
+  border-color: darkgray;
+  height: max-content;
+  width: fit-content;
+}
+
+.order-text {
+  width: 5.5rem;
+  padding-left: 0.5rem;
+}
+
 /* SEARCH BOX STYLING */
 .search-box {
+  margin: 0.5rem;
   display: flex;
-  margin: 0 auto;
+  flex: 3 1 3;
+  /* margin: 0 auto; */
   border-style: groove;
   border-width: 1px;
   border-radius: 500px;

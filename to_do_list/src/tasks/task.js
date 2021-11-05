@@ -192,7 +192,7 @@ function Task(props) {
 
     return(
         <li key={props.key} id={props.data.id}
-            draggable={true}
+            draggable={(props.orderBy === "order")? true : false}
             onDragOver={(ev) => ev.preventDefault()}
             onDragStart={props.handleDrag}
             onDrop={props.handleDrop}
