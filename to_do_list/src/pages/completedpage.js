@@ -19,6 +19,10 @@ function CompletedPage() {
         console.log("search text: ", searchText)
     }, [searchText])
 
+    useEffect(() => {
+        console.log("orderBy", orderBy)
+    }, [orderBy])
+
     return(
         <div className="taskpage">
             {/* change so isntead of using Completed component is uses Tasks component dynamically */}
@@ -29,7 +33,7 @@ function CompletedPage() {
                 <OrderBy orderBy={orderBy} setOrderBy={setOrderBy}/>
             </div>
             <Tasks completed={"completed"} setAllTags={setAllTags} allTags={allTags} filterTag={filterTag}
-                searchText={searchText}/>
+                searchText={searchText} orderBy={orderBy}/>
         </div>
     )
 }
