@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Switch } from 'react-router'
 import Tags from './tags'
-
-async function GetTasks() {
-    const url = 'http://localhost:3010/tasks'
-    try {
-        const data = await axios.get(url)
-        return data.data
-    }
-    catch(error){
-        console.log(error)
-        return "error"
-    }
-
-}
 
 async function updateTask(obj, url_end) {
     const url = 'http://localhost:3010/' + `${url_end}/${obj.id}`
@@ -63,10 +49,8 @@ async function addTaskCompleted(obj, url_end) {
 */
 
 function Task(props) {
-    const [data, setData] = useState([{}])
     const [loading, setLoading] = useState(false)
     const [completed, setCompleted] = useState(props.completed) // init false
-    const [editing, setEditing] = useState(false)
     const [liClassName, setLiClassName] = useState("task-item")
 
     /* state for the tasks information */
@@ -160,22 +144,6 @@ function Task(props) {
         props.setRemovedTask(props.data.id)
     }
 
-    const setMaxAndMin = async () => {
-        let min = await new Date().toISOString()
-        min = await min.substring(0, min.length - 4)
-
-        let curr_year = await min.substring(0, 4)
-        curr_year = await Number(curr_year)
-        curr_year++
-
-        let max = await curr_year + min.substring(4, min.length)
-
-        setDateMin(min)
-        setDateMax(max)
-
-       // console.log("iso date strig", dateMin, dateMax, curr_year)
-    }
-
     async function ValidateTimeSelected(sel) {
         if(sel) {
             let date_sel = await new Date(sel)
@@ -238,14 +206,18 @@ function Task(props) {
         async function setUpAlarm() {
             let now = new Date()
             let later = new Date(alarm)
-            setTimeout(async () => { setAlarm(null); setShowAlarm(false); await backupAlarm(null); alert(props.data.description);}, later - now)
+            setTimeout(async () => {
+                await setAlarm(null);
+                await setShowAlarm(false);
+                await backupAlarm(null);
+                alert(props.data.description);
+            }, later - now)
             await backupAlarm(alarm)
-            //setAlarm(null)
         }
 
         if(alarm) {
             // set alarm to null if it is passed the current time
-            if(new Date(alarm) - new Date() < 0) { setAlarm(null); setShowAlarm(false); }
+            if(new Date(alarm) - new Date() < 0) { setAlarm(null); setShowAlarm(false); return; }
             console.log("alarm and min n max", alarm, dateMin, dateMax)
             setUpAlarm()
         }
@@ -259,8 +231,6 @@ function Task(props) {
             onDrop={props.handleDrop}
             className={liClassName}
             >
-            {(!editing)?
-            //not editing the task card
             <div>
                 <div className="task-header">
                     <label>
@@ -312,25 +282,11 @@ function Task(props) {
                 </textarea>
                 <div className="tag-box">
                     <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed}
-                        editing={editing} filterTag={props.filterTag}
+                        editing={false} filterTag={props.filterTag}
                         setAllTags={props.setAllTags} allTags={props.allTags}/>
                 </div>
             </div>
-            :
-            <div className="task-item">
-                <input
-                        type="text"
-                        placeholder="description"
-                        name="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                <div className="tag-box">
-                    <Tags tags={tags} setTags={setTags} data={props.data} completed={props.completed}
-                        editing={editing} filterTag={props.filterTag}
-                        setAllTags={props.setAllTags} allTags={props.allTags}/>
-                </div>
-            </div>}
+
         </li>
     )
 }

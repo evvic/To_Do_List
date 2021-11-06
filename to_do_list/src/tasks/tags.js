@@ -35,21 +35,11 @@ function Tags(props) {
         setLocalTags(props.tags)
 
         if(localTags) {
-            if(!props.editing) {
-                setTagItems(localTags.map((b) =>
-                    <button key={b} className={"ind-tag"}>
-                        {b}
-                    </button>
-                ))
-            }
-            else {
-                setTagItems(localTags.map((b) =>
-                    <button key={b} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
-                        {b}
-                    </button>
-                ))
-            }
-
+            setTagItems(localTags.map((b) =>
+                <button key={b} className={"ind-tag"}>
+                    {b}
+                </button>
+            ))
             setLoading(false)
         }
 
