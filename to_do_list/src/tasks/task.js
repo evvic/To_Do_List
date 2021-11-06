@@ -67,33 +67,20 @@ function Task(props) {
     const [loading, setLoading] = useState(false)
     const [completed, setCompleted] = useState(props.completed) // init false
     const [editing, setEditing] = useState(false)
+    const [liClassName, setLiClassName] = useState("task-item")
 
     /* state for the tasks information */
     const [description, setDescription] = useState(props.data.description)
     const [tags, setTags] = useState(props.data.tags)
+    const [alarm, setAlarm] = useState((props.data.alarm)? props.data.alarm : null)
 
-    const [liClassName, setLiClassName] = useState("task-item")
+    //alarm constraints
+    let tempdate = new Date().toISOString()
+    tempdate = tempdate.substring(0, tempdate.length - 8)
+    let curr_year = Number(tempdate.substring(0, 4))
 
-    async function Loading() {
-        //setLoading(true)
-
-        let temp = null
-        //temp = await GetTasks()
-
-        console.log(temp)
-
-        // make sure temp is not null
-        if(temp !== "error") {
-            setData(temp)
-
-        }
-        else {
-            setData([{"name": "error"}])
-            //setFailed(true)
-        }
-
-        setLoading(false)
-    }
+    const [dateMin, setDateMin] = useState(tempdate)
+    const [dateMax, setDateMax] = useState((++curr_year).toString() + tempdate.substring(4, tempdate.length))
 
     const markCompleted = async () => {
         setLoading(true)
@@ -157,6 +144,7 @@ function Task(props) {
             "order": props.data.order,
             "last_modified": d,
             "time_added": props.data.time_added,
+            "alarm": alarm,
             "id": props.data.id
         }
         let resp = await updateTask(obj, (props.completed)? 'completed' : 'tasks')
@@ -166,6 +154,22 @@ function Task(props) {
             alert("couldn't save edit")
 
         props.setRemovedTask(props.data.id)
+    }
+
+    const setMaxAndMin = async () => {
+        let min = await new Date().toISOString()
+        min = await min.substring(0, min.length - 4)
+
+        let curr_year = await min.substring(0, 4)
+        curr_year = await Number(curr_year)
+        curr_year++
+
+        let max = await curr_year + min.substring(4, min.length)
+
+        setDateMin(min)
+        setDateMax(max)
+
+       // console.log("iso date strig", dateMin, dateMax, curr_year)
     }
 
     useEffect(() => {
@@ -190,6 +194,20 @@ function Task(props) {
         }
     }, [tags, props.searchText])
 
+    useEffect(() => {
+        console.log("alarm and min n max", alarm, dateMin, dateMax)
+        //setMaxAndMin
+
+        //setTimeout()
+        if(alarm) {
+            let now = new Date()
+            let later = new Date(alarm)
+            console.log("later - now", later - now)
+            setTimeout(() => alert(props.data.description), later - now)
+            setAlarm(null)
+        }
+    }, [alarm])
+
     return(
         <li key={props.key} id={props.data.id}
             draggable={(props.orderBy === "order")? true : false}
@@ -211,15 +229,11 @@ function Task(props) {
                         disabled={loading}
                         />
                     </label>
-                    {/*
-                    <button onClick={ () => setEditing(!editing)}>
-                        {(editing)? "stop editing" : "edit" }
-                    </button>
-                    */}
-
                     <button onClick={ () => console.log("set alarm here") } className={"delete-btn"}>
                         ⏰
                     </button>
+                    <input className={""} value={alarm} onChange={(e) => setAlarm(e.target.value)}
+                        type="datetime-local" max={dateMax} min={dateMin} /*onClick={setMaxAndMin}*//>
                     <button onClick={ handleDeletion } className={"delete-btn"}>
                         🗑️
                     </button>

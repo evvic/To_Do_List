@@ -39,6 +39,25 @@ function App()  {
             </Route>
           </Switch>
         </div>
+        {/* temporary way to add extra "white" space at the end of the list */}
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <br />
         <br />
       </BrowserRouter>
