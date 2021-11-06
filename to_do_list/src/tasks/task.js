@@ -82,6 +82,9 @@ function Task(props) {
     const [dateMin, setDateMin] = useState(tempdate)
     const [dateMax, setDateMax] = useState((++curr_year).toString() + tempdate.substring(4, tempdate.length))
 
+    // show alarm setting
+    const [showAlarm, setShowAlarm] = useState(false)
+
     const markCompleted = async () => {
         setLoading(true)
         setCompleted(!props.completed)
@@ -136,6 +139,7 @@ function Task(props) {
 
     const handleFinishedTyping = async () => {
         console.log("handleFinishedTyping", description)
+        if(description === props.data.description) return;
         let d = new Date()
 
         let obj = {
@@ -172,6 +176,21 @@ function Task(props) {
        // console.log("iso date strig", dateMin, dateMax, curr_year)
     }
 
+    async function ValidateTimeSelected(sel) {
+        if(sel) {
+            let date_sel = await new Date(sel)
+            let now = await new Date()
+            console.log(date_sel, now, date_sel - now)
+
+            if(date_sel - now <= 0) {
+                console.log("Error. Set alarm in the future")
+            }
+            else {
+                setAlarm(sel)
+            }
+        }
+    }
+
     useEffect(() => {
         //Loading()
         if(props.searchText === null || props.searchText === "") {
@@ -194,17 +213,41 @@ function Task(props) {
         }
     }, [tags, props.searchText])
 
-    useEffect(() => {
-        console.log("alarm and min n max", alarm, dateMin, dateMax)
-        //setMaxAndMin
+    async function backupAlarm(local_alarm) {
+        console.log("backupAlarm", alarm, local_alarm)
+        let obj = {
+            "description": description,
+            "tags": tags,
+            "order": props.data.order,
+            "last_modified": new Date(),
+            "time_added": props.data.time_added,
+            "alarm": local_alarm,
+            "id": props.data.id
+        }
 
-        //setTimeout()
-        if(alarm) {
+        let resp = await updateTask(obj, (props.completed)? 'completed' : 'tasks')
+
+        if((await resp).status != 200)
+        // failed updating changes
+            console.log("Error. Couldn't save alarm update.")
+        else
+            console.log("Alarm backed up.")
+    }
+
+    useEffect(() => {
+        async function setUpAlarm() {
             let now = new Date()
             let later = new Date(alarm)
-            console.log("later - now", later - now)
-            setTimeout(() => alert(props.data.description), later - now)
-            setAlarm(null)
+            setTimeout(async () => { setAlarm(null); setShowAlarm(false); await backupAlarm(null); alert(props.data.description);}, later - now)
+            await backupAlarm(alarm)
+            //setAlarm(null)
+        }
+
+        if(alarm) {
+            // set alarm to null if it is passed the current time
+            if(new Date(alarm) - new Date() < 0) { setAlarm(null); setShowAlarm(false); }
+            console.log("alarm and min n max", alarm, dateMin, dateMax)
+            setUpAlarm()
         }
     }, [alarm])
 
@@ -229,11 +272,27 @@ function Task(props) {
                         disabled={loading}
                         />
                     </label>
-                    <button onClick={ () => console.log("set alarm here") } className={"delete-btn"}>
+                    {(alarm || showAlarm)?
+                    <>
+                        <input className={"local-date"} value={alarm} onChange={(e) => ValidateTimeSelected(e.target.value)}
+                        type="datetime-local" max={dateMax} min={dateMin} /*onClick={setMaxAndMin}*/
+                        onBlur={() => console.log("blurring baby")}/>
+                        {(alarm)?
+                        <></>
+                        :
+                        <button onClick={ () => setShowAlarm(false) } className={"delete-btn"}>
+                            ✕
+                        </button>
+                        }
+
+                    </>
+                    :
+                    <button onClick={ () => setShowAlarm(true) } className={"delete-btn"}>
                         ⏰
                     </button>
-                    <input className={""} value={alarm} onChange={(e) => setAlarm(e.target.value)}
-                        type="datetime-local" max={dateMax} min={dateMin} /*onClick={setMaxAndMin}*//>
+                    }
+
+
                     <button onClick={ handleDeletion } className={"delete-btn"}>
                         🗑️
                     </button>

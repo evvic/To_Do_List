@@ -197,6 +197,7 @@ img {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+  align-items: center;
 }
 
 .check-box {
@@ -210,6 +211,29 @@ img {
   background: blue;
   color: blue;
 }
+
+/* STYLE TH EALARM DATE-TIME INPUT */
+.local-date {
+  position: sticky;
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  color: #fff;
+  visibility: none;
+  /* width: 2.5rem; */
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  right: 100px;
+
+  background-color: transparent;
+  color: #fff;
+  color-adjust: #fff;
+  /* background: url(yourIcon) no-repeat; */
+}
+
+
 
 /* SHOW TASK LIST STYLING */
 li {
