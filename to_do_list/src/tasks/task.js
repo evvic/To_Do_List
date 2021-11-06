@@ -68,6 +68,7 @@ function Task(props) {
 
     // show alarm setting
     const [showAlarm, setShowAlarm] = useState(false)
+    const [alarmSet, setAlarmSet] = useState((props.data.alarm)? true : false)
 
     const markCompleted = async () => {
         setLoading(true)
@@ -210,8 +211,10 @@ function Task(props) {
                 await setAlarm(null);
                 await setShowAlarm(false);
                 await backupAlarm(null);
+                await setAlarmSet(false)
                 alert(props.data.description);
             }, later - now)
+            await setAlarmSet(true)
             await backupAlarm(alarm)
         }
 
@@ -219,7 +222,9 @@ function Task(props) {
             // set alarm to null if it is passed the current time
             if(new Date(alarm) - new Date() < 0) { setAlarm(null); setShowAlarm(false); return; }
             console.log("alarm and min n max", alarm, dateMin, dateMax)
-            setUpAlarm()
+            if(!alarmSet) {
+                setUpAlarm()
+            }
         }
     }, [alarm])
 
@@ -245,8 +250,7 @@ function Task(props) {
                     {(alarm || showAlarm)?
                     <>
                         <input className={"local-date"} value={alarm} onChange={(e) => ValidateTimeSelected(e.target.value)}
-                        type="datetime-local" max={dateMax} min={dateMin} /*onClick={setMaxAndMin}*/
-                        onBlur={() => console.log("blurring baby")}/>
+                        type="datetime-local" max={dateMax} min={dateMin} />
                         {(alarm)?
                         <></>
                         :
