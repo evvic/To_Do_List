@@ -45,8 +45,8 @@ function Tasks(props) {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [failed, setFailed] = useState(false)
-    const [taskItems, setTaskItems] = useState(0)
     const [removedTask, setRemovedTask] = useState(null)
+    const [noTasks, setNoTasks] = useState(null)
     // reordering tasks
     const [dragId, setDragId] = useState();
     const [track, setTrack] = useState(null)
@@ -96,6 +96,7 @@ function Tasks(props) {
         temp = await GetTasks(props.completed)
 
         console.log("Loading() data", temp)
+        setNoTasks((temp.length > 0)? false : true)
 
         // make sure temp is not null
         if(temp !== "error") {
