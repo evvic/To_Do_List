@@ -8,7 +8,7 @@
       "tags": [
         "yeet"
       ],
-      "order": 1,
+      "order": 7,
       "last_modified": "2021-11-06T21:51:00.028Z",
       "time_added": "2021-11-02T17:42:15.332Z",
       "alarm": null,
@@ -40,7 +40,7 @@
     {
       "description": "qwqw",
       "tags": [],
-      "order": 4,
+      "order": 5,
       "last_modified": "2021-11-07T01:21:37.692Z",
       "time_added": "2021-11-07T01:21:37.692Z",
       "alarm": null,
@@ -61,7 +61,7 @@
         "one",
         "two"
       ],
-      "order": 5,
+      "order": 1,
       "last_modified": "2021-11-07T13:22:26.555Z",
       "time_added": "2021-11-07T13:22:26.555Z",
       "alarm": null,
@@ -72,7 +72,7 @@
       "tags": [
         "date"
       ],
-      "order": 6,
+      "order": 9,
       "last_modified": "2021-11-07T13:43:10.325Z",
       "time_added": "2021-11-07T13:43:10.325Z",
       "alarm": null,
@@ -83,7 +83,7 @@
       "tags": [
         "taggin"
       ],
-      "order": 6,
+      "order": 4,
       "last_modified": "2021-11-07T13:45:00.756Z",
       "time_added": "2021-11-07T13:45:00.756Z",
       "alarm": null,
@@ -126,15 +126,6 @@
       "time_added": "2021-11-07T13:48:18.726Z",
       "alarm": null,
       "id": 14
-    },
-    {
-      "description": "4",
-      "tags": [],
-      "order": 12,
-      "last_modified": "2021-11-07T13:48:25.980Z",
-      "time_added": "2021-11-07T13:48:25.980Z",
-      "alarm": null,
-      "id": 15
     }
   ],
   "completed": [
@@ -222,7 +213,7 @@
         "wacka",
         "p2"
       ],
-      "order": 2,
+      "order": 4,
       "last_modified": "2021-11-06T20:58:00.039Z",
       "time_added": "2021-10-20T10:44:33.562Z",
       "alarm": null,
@@ -240,6 +231,15 @@
       "time_added": "2021-10-19T14:17:52.080Z",
       "alarm": null,
       "id": 58
+    },
+    {
+      "description": "4",
+      "tags": [],
+      "order": 13,
+      "last_modified": "2021-11-07T13:48:25.980Z",
+      "time_added": "2021-11-07T13:48:25.980Z",
+      "alarm": null,
+      "id": 59
     }
   ]
 }
