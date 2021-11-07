@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
-//import {connect} from 'react-redux';
 import Info from './pages/info';
-//import Completed from './completed/completed';
 import TaskPage from './pages/taskpage';
-import Tags from './tasks/tags';
 import CompletedPage from './pages/completedpage';
 
 function App()  {
-
-
-    //const navClass = 'colors' + this.props.colorModeFromReduxStore;
 
     return (
       <BrowserRouter>
@@ -40,9 +34,6 @@ function App()  {
           </Switch>
         </div>
         {/* temporary way to add extra "white" space at the end of the list */}
-        <br />
-        <br />
-        <br />
         <br />
         <br />
         <br />

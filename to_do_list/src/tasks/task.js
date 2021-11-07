@@ -3,7 +3,7 @@ import axios from 'axios'
 import Tags from './tags'
 
 async function updateTask(obj, url_end) {
-    const url = 'http://localhost:3010/' + `${url_end}/${obj.id}`
+    const url = `http://localhost:3010/${url_end}/${obj.id}`
     try {
         const response = await axios.put(url, obj)
         console.log(response)
@@ -196,7 +196,7 @@ function Task(props) {
 
         let resp = await updateTask(obj, (props.completed)? 'completed' : 'tasks')
 
-        if((await resp).status != 200)
+        if((await resp).status !== 200)
         // failed updating changes
             console.log("Error. Couldn't save alarm update.")
         else

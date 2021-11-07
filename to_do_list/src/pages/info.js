@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 function Info() {
 
@@ -14,7 +14,9 @@ function Info() {
             <p>Has the same features as the task page. Competed tasks can still be reordered, modified, and alarms set.</p>
             <h3>Task Items</h3>
             <li>
-            Tasks can easily be edited by clicking on them and typing directly into the description! It automatically saves locally and to the database!
+                Tasks can easily be edited by clicking on them and typing directly into the description! It automatically saves locally and to the database!
+                <br />
+                Tasks can be reordered by clicking and dragging one task over another.
                 <br />
                 The box in the top left corner of each tag can be checked to mark as completed, then the task is transferred to the completed page.
                 <br />

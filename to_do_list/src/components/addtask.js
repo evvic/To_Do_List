@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Task from '../tasks/task'
 import '../tasks/task.css'
 
 async function PostTask(obj) {
@@ -35,7 +34,6 @@ function AddTask(props) {
     const [description, setDescription] = useState("")
 
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
 
     const [opened, setOpened] = useState(false)
 
@@ -55,7 +53,6 @@ function AddTask(props) {
 
         if(err_flag) {
             setLoading(false)
-            setError(err_flag)
             return
         }
 
@@ -88,7 +85,6 @@ function AddTask(props) {
 
         props.setDataLoading(false)
         setLoading(false)
-        setError(err_flag)
         return
     }
 

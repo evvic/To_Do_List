@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from 'react'
-
-/*
-Search returns a text that wil lbe filtered in tasks
-*/
+import React from 'react'
 
 function OrderBy(props) {
     return(

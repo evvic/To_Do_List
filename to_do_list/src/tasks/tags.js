@@ -3,7 +3,7 @@ import "./task.css"
 import axios from 'axios'
 
 async function UpdateTags(obj, url_end) {
-    const url = 'http://localhost:3010/' + `${url_end}/${obj.id}`
+    const url = `http://localhost:3010/${url_end}/${obj.id}`
     try {
         const response = await axios.put(url, obj)
         //console.log(response)
@@ -18,11 +18,8 @@ async function UpdateTags(obj, url_end) {
 
 function Tags(props) {
     const [localTags, setLocalTags] = useState(props.tags)
-    const [data, setData] = useState([{}])
     const [loading, setLoading] = useState(true)
-    const [failed, setFailed] = useState(false)
     const [tagItems, setTagItems] = useState([])
-    const [removedTask, setRemovedTask] = useState(null)
     const [editingTags, setEditingTags] = useState(false)
 
     const [tag, setTag] = useState("")
