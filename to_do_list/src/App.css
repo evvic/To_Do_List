@@ -312,11 +312,16 @@ textarea {
   border-radius: 100%;
   background:pink;
   justify-content: center;
+  display: table;
 
   box-shadow: 0 0.5rem 1.3rem rgba(0,0,0,0.2);
 }
 
-
+.add-task-plus {
+  display: table-cell;
+  vertical-align: middle;
+  font-size:xx-large;
+}
 
 .addtask-icon-holder:hover {
   opacity: 0.8;

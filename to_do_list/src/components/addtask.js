@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Task from '../tasks/task'
-
+import '../tasks/task.css'
 
 async function PostTask(obj) {
     /*
@@ -40,11 +40,11 @@ function AddTask(props) {
     const [opened, setOpened] = useState(false)
 
     const [localTags, setLocalTags] = useState([])
-    const [editingTags, setEditingTags] = useState(false)
     const [tag, setTag] = useState("")
 
     async function ProcessTask() {
         setLoading(true)
+        props.setDataLoading(true)
 
         let today = new Date()
 
@@ -71,14 +71,29 @@ function AddTask(props) {
 
         let resp = await PostTask(obj)
 
-        console.log("response ", resp)
+        if(resp !== "error") {
+            console.log("Successfully added task.")
+            let data_arr = props.data
+            data_arr.push(obj)
+            console.log("data_arr", data_arr)
+            props.setData(data_arr)
+            setLocalTags([])
+            setDescription("")
+            setTag("")
 
+        }
+        else {
+            console.log("Error. Could not update object with removed tag.")
+        }
+
+        props.setDataLoading(false)
         setLoading(false)
         setError(err_flag)
         return
     }
 
     const handleAddingTag = () => {
+        console.log("handleadding tag")
 
         setLoading(true)
 
@@ -124,18 +139,19 @@ function AddTask(props) {
             temptags.splice(ind, 1);
         }
 
+        setLocalTags([])
         setLocalTags(temptags)
     }
 
     useEffect(() => {
-        console.log(opened)
+        //console.log(opened)
     }, [opened])
 
     return(
         <div className="addtask-container">
             {(!opened)?
             <div className="addtask-icon-holder" onClick={ () => setOpened(!opened)}>
-                +
+                <h1 className={"add-task-plus"}>+</h1>
             </div>
             :
             <li
@@ -165,26 +181,28 @@ function AddTask(props) {
 
                 </textarea>
                 <div className="tag-box">
-                    <form className={"inner-tag-container"}>
+                    <div className={"inner-tag-container"} >
                         <input
                             className={"ind-tag"}
-                            type="text"
-                            placeholder="add new tag"
-                            name="tag"
+                            type={"text"}
+                            placeholder={"add new tag"}
                             value={tag}
                             onChange={(e) => setTag(e.target.value)}
                         />
-                        <button className={"ind-tag-add"} disabled={false /*loading*/} onClick={ () => setTag("") }>
-                            {(loading)? "adding..." : "add" }
+                        <button className={"ind-tag-add"} disabled={false /*loading*/} onClick={ handleAddingTag }>
+                            {(loading)? "adding..." : "add tag" }
                         </button>
-                    </form>
+                    </div>
                     <div className={"inner-tag-container"}>
                     {[...new Set(localTags)]
                         .map((b) =>
-                        <button key={b.uniqueId} className={"ind-tag-delete"} onClick={ () => deleteTag(b) }>
+                        <button key={b.uniqueId} className={"ind-tag-delete"} onClick={ () =>  deleteTag(b) }>
                             {b}
                         </button>
-                    )}
+                    )
+                    }
+
+
                     </div>
                 </div>
             </div>
@@ -192,20 +210,7 @@ function AddTask(props) {
         </li>
             }
 
-            {/* <form>
-                <div>
-                <input
-                        type="text"
-                        placeholder="description"
-                        name="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </div>
-                <button disabled={loading} onClick={ () => ProcessTask() }>
-                    {(loading)? "submitting..." : "submit" }
-                </button>
-            </form>*/}
+
         </div>
     )
 }

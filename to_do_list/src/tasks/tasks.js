@@ -182,6 +182,10 @@ function Tasks(props) {
         Loading()
     }, [removedTask])
 
+    useEffect(() => {
+        console.log("useEffect data", data)
+    }, [data])
+
     return(
         <>
 
@@ -192,9 +196,13 @@ function Tasks(props) {
         </>
         :
         <>
+        {(props.completed === "completed")?
+        <></>
+        :
         <div className="info">
-            <AddTask length={data.length}/>
-        </div>
+            <AddTask length={data.length} data={data} setData={setData} setDataLoading={setLoading}/>
+        </div>}
+
             {(!failed)?
                 <div className="task-container">
                     {/*List of tasks is done loading*/}

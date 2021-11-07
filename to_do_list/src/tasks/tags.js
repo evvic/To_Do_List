@@ -57,6 +57,7 @@ function Tags(props) {
         }
 
         //console.log("temptags after splice", temptags)
+        setLocalTags([])
         props.setTags(temptags)
         setLocalTags(temptags)
 
