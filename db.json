@@ -72,7 +72,7 @@
       "tags": [
         "date"
       ],
-      "order": 12,
+      "order": 11,
       "last_modified": "2021-11-07T13:43:10.325Z",
       "time_added": "2021-11-07T13:43:10.325Z",
       "alarm": null,
@@ -103,7 +103,7 @@
     {
       "description": "1",
       "tags": [],
-      "order": 8,
+      "order": 12,
       "last_modified": "2021-11-07T13:46:55.155Z",
       "time_added": "2021-11-07T13:46:55.155Z",
       "alarm": null,
@@ -117,15 +117,6 @@
       "time_added": "2021-11-07T13:47:00.142Z",
       "alarm": null,
       "id": 13
-    },
-    {
-      "description": "3",
-      "tags": [],
-      "order": 11,
-      "last_modified": "2021-11-07T13:48:18.726Z",
-      "time_added": "2021-11-07T13:48:18.726Z",
-      "alarm": null,
-      "id": 14
     }
   ],
   "completed": [

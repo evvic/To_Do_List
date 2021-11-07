@@ -115,7 +115,7 @@ function Tasks(props) {
             setData(temp)
         }
         else {
-            setData([{"name": "error"}])
+            setData([/* {"name": "error"} */])
             setFailed(true)
         }
 
@@ -203,7 +203,7 @@ function Tasks(props) {
             <AddTask length={data.length} data={data} setData={setData} setDataLoading={setLoading}/>
         </div>}
 
-            {(!failed)?
+            {(data.length)?
                 <div className="task-container">
                     {/*List of tasks is done loading*/}
 
