@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import AddTask from './addtask';
+import AddTask from '../components/addtask';
 import Task from './task';
 import axios from 'axios'
 import '../App.css'
@@ -193,7 +193,7 @@ function Tasks(props) {
         :
         <>
         <div className="info">
-            {/*<AddTask length={data.length}/>*/}
+            <AddTask length={data.length}/>
         </div>
             {(!failed)?
                 <div className="task-container">

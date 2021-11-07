@@ -295,3 +295,40 @@ textarea {
   box-shadow: 0 0.8rem 1rem 0 rgba(0,0,0,0.2);
   transition: background-color 300ms;
 }
+
+/* ADDING TASK STYLE */
+.addtask-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.addtask-icon-holder {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  background:pink;
+  justify-content: center;
+
+  box-shadow: 0 0.5rem 1.3rem rgba(0,0,0,0.2);
+}
+
+
+
+.addtask-icon-holder:hover {
+  opacity: 0.8;
+}
+
+.add-task-header {
+  justify-content: right;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  align-items: right;
+  padding: 0.5rem;
+}
